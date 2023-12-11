@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem.UI;
 using UnityEngine.UI;
 
 public class UIManager : Singleton<UIManager>
@@ -48,13 +49,13 @@ public class UIManager : Singleton<UIManager>
     public void SetEventSystem(GameObject obj)
     {
         obj.GetOrAddComponent<EventSystem>();
-        obj.GetOrAddComponent<StandaloneInputModule>();
+        obj.GetOrAddComponent<InputSystemUIInputModule>();
     }
 
     protected override void Initialize()
     {
         SetCanvas(Root);
-        SetEventSystem(Root);
+        SetEventSystem(gameObject);
     }
 
     public T ShowSceneUI<T>(string name = null) where T : UI_Scene
