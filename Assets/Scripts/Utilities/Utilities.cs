@@ -30,6 +30,7 @@ public class Utilities
 
     public static T GetOrAddComponent<T>(GameObject obj) where T : Component
     {
-        return obj.GetComponent<T>() ?? obj.AddComponent<T>();
+        T res = obj.GetComponent<T>();
+        return res != null ? res : obj.AddComponent<T>();
     }
 }

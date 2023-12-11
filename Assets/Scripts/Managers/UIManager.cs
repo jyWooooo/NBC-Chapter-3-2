@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class UIManager : Singleton<UIManager>
@@ -31,7 +32,7 @@ public class UIManager : Singleton<UIManager>
 
         CanvasScaler scaler = obj.GetOrAddComponent<CanvasScaler>();
         scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
-        scaler.referenceResolution = new(Display.main.systemHeight, Display.main.systemWidth);
+        scaler.referenceResolution = new(1600, 900);
 
         obj.GetOrAddComponent<GraphicRaycaster>();
 
@@ -44,17 +45,26 @@ public class UIManager : Singleton<UIManager>
             canvas.sortingOrder = sortOrder.Value;
     }
 
+    public void SetEventSystem(GameObject obj)
+    {
+        obj.GetOrAddComponent<EventSystem>();
+        obj.GetOrAddComponent<StandaloneInputModule>();
+    }
+
     protected override void Initialize()
     {
-        root.SetActive(true);
-        SetCanvas(root);
+        SetCanvas(Root);
+        SetEventSystem(Root);
+
+        //Test Code
+        ShowSceneUI<UI_Scene_Test>();
     }
 
     public T ShowSceneUI<T>(string name = null) where T : UI_Scene
     {
         if (string.IsNullOrEmpty(name))
-            name = nameof(T);
-
+            name = typeof(T).Name;
+        Debug.Log($"UI/{name}");
         // TODO: 나중에 Addressable에서 Load한 프리팹으로 바꿔야함.
         GameObject obj = Resources.Load<GameObject>($"UI/{name}");
         obj = Instantiate(obj, Root.transform);
@@ -69,7 +79,7 @@ public class UIManager : Singleton<UIManager>
     public T ShowPopUpUI<T>(string name = null) where T : UI_PopUp
     {
         if (string.IsNullOrEmpty(name))
-            name = nameof(T);
+            name = typeof(T).Name;
 
         // TODO: 나중에 Addressable에서 Load한 프리팹으로 바꿔야함.
         GameObject obj = Resources.Load<GameObject>($"UI/{name}");
