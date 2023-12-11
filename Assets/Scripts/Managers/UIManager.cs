@@ -55,16 +55,13 @@ public class UIManager : Singleton<UIManager>
     {
         SetCanvas(Root);
         SetEventSystem(Root);
-
-        //Test Code
-        ShowSceneUI<UI_Scene_Test>();
     }
 
     public T ShowSceneUI<T>(string name = null) where T : UI_Scene
     {
         if (string.IsNullOrEmpty(name))
             name = typeof(T).Name;
-        Debug.Log($"UI/{name}");
+
         // TODO: 나중에 Addressable에서 Load한 프리팹으로 바꿔야함.
         GameObject obj = Resources.Load<GameObject>($"UI/{name}");
         obj = Instantiate(obj, Root.transform);
