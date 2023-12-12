@@ -6,24 +6,24 @@ using UnityEngine.UI;
 
 public class UIManager : Singleton<UIManager>
 {
-    private GameObject root;
+    private GameObject _root;
     public GameObject Root
     {
         get
         {
-            root = GameObject.Find("@UI_Root");
-            if (root == null)
-                root = new("@UI_Root");
-            return root;
+            _root = GameObject.Find("@UI_Root");
+            if (_root == null)
+                _root = new("@UI_Root");
+            return _root;
         }
     }
 
-    private UI_Scene sceneUI;
-    public UI_Scene SceneUI => sceneUI;
+    private UI_Scene _sceneUI;
+    public UI_Scene SceneUI => _sceneUI;
 
-    private int popUpOrder = 10;
-    private Stack<UI_PopUp> popUpStack = new();
-    public int PopUpCount => popUpStack.Count;
+    private int _popUpOrder = 10;
+    private Stack<UI_PopUp> _popUpStack = new();
+    public int PopUpCount => _popUpStack.Count;
 
     public void SetCanvas(GameObject obj, int? sortOrder = 0)
     {
@@ -39,8 +39,8 @@ public class UIManager : Singleton<UIManager>
 
         if (!sortOrder.HasValue)
         {
-            canvas.sortingOrder = popUpOrder;
-            popUpOrder++;
+            canvas.sortingOrder = _popUpOrder;
+            _popUpOrder++;
         }
         else
             canvas.sortingOrder = sortOrder.Value;
@@ -70,8 +70,8 @@ public class UIManager : Singleton<UIManager>
         //GameObject obj = ResourceManager.Instantiate($"{name}.prefab");
         //obj.transform.SetParent(Root.transform);
 
-        sceneUI = obj.GetOrAddComponent<T>();
-        return sceneUI as T;
+        _sceneUI = obj.GetOrAddComponent<T>();
+        return _sceneUI as T;
     }
 
     public T ShowPopUpUI<T>(string name = null) where T : UI_PopUp
@@ -87,7 +87,7 @@ public class UIManager : Singleton<UIManager>
         //obj.transform.SetParent(Root.transform);
 
         T popUp = obj.GetOrAddComponent<T>();
-        popUpStack.Push(popUp);
+        _popUpStack.Push(popUp);
 
         //RefreshTimeScale();
 
@@ -96,8 +96,8 @@ public class UIManager : Singleton<UIManager>
 
     public void ClosePopUp(UI_PopUp popUp)
     {
-        if (popUpStack.Count == 0) return;
-        if (popUpStack.Peek() != popUp)
+        if (_popUpStack.Count == 0) return;
+        if (_popUpStack.Peek() != popUp)
         {
             Debug.LogError($"[UIManager] ClosePopUp({popUp.name}): Close pop up failed");
             return;
@@ -107,19 +107,19 @@ public class UIManager : Singleton<UIManager>
 
     public void ClosePopUp()
     {
-        if (popUpStack.Count == 0) return;
+        if (_popUpStack.Count == 0) return;
 
-        UI_PopUp popUp = popUpStack.Pop();
+        UI_PopUp popUp = _popUpStack.Pop();
         // TODO: 나중에 ResourceManager에서 Destroy 시켜줘야함
         Destroy(popUp.gameObject);
         //ResourceManager.Destroy(popUp);
-        popUpOrder--;
+        _popUpOrder--;
         //RefreshTimeScale();
     }
 
     public void CloseAllPopUp()
     {
-        while (popUpStack.Count > 0)
+        while (_popUpStack.Count > 0)
             ClosePopUp();
     }
 }

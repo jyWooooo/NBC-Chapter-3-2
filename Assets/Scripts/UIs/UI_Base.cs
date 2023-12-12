@@ -9,8 +9,8 @@ using static Define;
 
 public class UI_Base : MonoBehaviour
 {
-    private Dictionary<Type, UnityEngine.Object[]> objects = new();
-    private bool isInitialized = false;
+    private Dictionary<Type, UnityEngine.Object[]> _objects = new();
+    private bool _isInitialized = false;
 
     private void Start()
     {
@@ -19,8 +19,8 @@ public class UI_Base : MonoBehaviour
 
     public virtual bool Initialize()
     {
-        if (isInitialized) return false;
-        isInitialized = true;
+        if (_isInitialized) return false;
+        _isInitialized = true;
         return true;
     }
 
@@ -28,7 +28,7 @@ public class UI_Base : MonoBehaviour
     {
         string[] names = Enum.GetNames(type);
         var objs = new UnityEngine.Object[names.Length];
-        objects.Add(typeof(T), objs);
+        _objects.Add(typeof(T), objs);
 
         for (int i = 0; i < names.Length; i++)
         {
@@ -49,7 +49,7 @@ public class UI_Base : MonoBehaviour
 
     private T Get<T>(int idx) where T : UnityEngine.Object
     {
-        if (!objects.TryGetValue(typeof(T), out var objs))
+        if (!_objects.TryGetValue(typeof(T), out var objs))
             return null;
         return objs[idx] as T;
     }
