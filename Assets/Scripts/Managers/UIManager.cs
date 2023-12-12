@@ -63,12 +63,8 @@ public class UIManager : Singleton<UIManager>
         if (string.IsNullOrEmpty(name))
             name = typeof(T).Name;
 
-        // TODO: 나중에 Addressable에서 Load한 프리팹으로 바꿔야함.
-        GameObject obj = Resources.Load<GameObject>($"UI/{name}");
-        obj = Instantiate(obj, Root.transform);
-
-        //GameObject obj = ResourceManager.Instantiate($"{name}.prefab");
-        //obj.transform.SetParent(Root.transform);
+        GameObject obj = ResourceManager.Instance.Instantiate($"{name}.prefab");
+        obj.transform.SetParent(Root.transform);
 
         _sceneUI = obj.GetOrAddComponent<T>();
         return _sceneUI as T;
@@ -79,12 +75,8 @@ public class UIManager : Singleton<UIManager>
         if (string.IsNullOrEmpty(name))
             name = typeof(T).Name;
 
-        // TODO: 나중에 Addressable에서 Load한 프리팹으로 바꿔야함.
-        GameObject obj = Resources.Load<GameObject>($"UI/{name}");
-        obj = Instantiate(obj, Root.transform);
-
-        //GameObject obj = ResourceManager.Instantiate($"{name}.prefab");
-        //obj.transform.SetParent(Root.transform);
+        GameObject obj = ResourceManager.Instance.Instantiate($"{name}.prefab");
+        obj.transform.SetParent(Root.transform);
 
         T popUp = obj.GetOrAddComponent<T>();
         _popUpStack.Push(popUp);
@@ -110,9 +102,7 @@ public class UIManager : Singleton<UIManager>
         if (_popUpStack.Count == 0) return;
 
         UI_PopUp popUp = _popUpStack.Pop();
-        // TODO: 나중에 ResourceManager에서 Destroy 시켜줘야함
-        Destroy(popUp.gameObject);
-        //ResourceManager.Destroy(popUp);
+        ResourceManager.Instance.Destroy(popUp.gameObject);
         _popUpOrder--;
         //RefreshTimeScale();
     }
