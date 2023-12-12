@@ -56,6 +56,10 @@ public class UIManager : Singleton<UIManager>
     {
         SetCanvas(Root);
         SetEventSystem(gameObject);
+
+        //Test Code
+        ResourceManager.Instance.LoadAsync<GameObject>($"UI_Scene_Test.prefab", obj => ShowSceneUI<UI_Scene_Test>(obj.name));
+        ResourceManager.Instance.LoadAsync<GameObject>($"UI_PopUp_Test.prefab");
     }
 
     public T ShowSceneUI<T>(string name = null) where T : UI_Scene
@@ -63,8 +67,8 @@ public class UIManager : Singleton<UIManager>
         if (string.IsNullOrEmpty(name))
             name = typeof(T).Name;
 
-        GameObject obj = ResourceManager.Instance.Instantiate($"{name}.prefab");
-        obj.transform.SetParent(Root.transform);
+        GameObject obj = ResourceManager.Instance.Load<GameObject>($"{name}.prefab");
+        obj = Instantiate(obj, Root.transform);
 
         _sceneUI = obj.GetOrAddComponent<T>();
         return _sceneUI as T;
@@ -75,8 +79,8 @@ public class UIManager : Singleton<UIManager>
         if (string.IsNullOrEmpty(name))
             name = typeof(T).Name;
 
-        GameObject obj = ResourceManager.Instance.Instantiate($"{name}.prefab");
-        obj.transform.SetParent(Root.transform);
+        GameObject obj = ResourceManager.Instance.Load<GameObject>($"{name}.prefab");
+        obj = Instantiate(obj, Root.transform);
 
         T popUp = obj.GetOrAddComponent<T>();
         _popUpStack.Push(popUp);

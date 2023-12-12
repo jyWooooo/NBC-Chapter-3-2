@@ -62,25 +62,17 @@ public class ResourceManager : Singleton<ResourceManager>
         }
     }
 
-    public GameObject Instantiate(string key)
+    public GameObject Instantiate(string key) => Instantiate<GameObject>(key);
+
+    public T Instantiate<T>(string key) where T : UnityEngine.Object
     {
-        var obj = Load<GameObject>(key);
+        var obj = Load<T>(key);
         if (obj == null)
         {
             Debug.LogError($"{nameof(ResourceManager)}: {key} Load failed.");
             return null;
         }
-
-        return Instantiate(obj, Vector3.zero, Quaternion.identity);
-    }
-
-    public T Instantiate<T>(string key) where T : UnityEngine.Object
-    {
-        var obj = Load<T>(key);
-        if (obj != null)
-            return Instantiate(obj, Vector3.zero, Quaternion.identity);
-        else
-            return null;
+        return Instantiate(obj);
     }
 
     new public void Destroy(UnityEngine.Object obj)
