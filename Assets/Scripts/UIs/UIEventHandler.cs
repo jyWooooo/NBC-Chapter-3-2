@@ -6,8 +6,10 @@ public class UIEventHandler : MonoBehaviour, IPointerClickHandler, IDragHandler,
 {
     public Action onClickHandler = null;
     public Action onPointerPressedHandler = null;
-    public Action onPointerDownHandler = null;
-    public Action onPointerUpHandler = null;
+    public Action onLeftPointerDownHandler = null;
+    public Action onLeftPointerUpHandler = null;
+    public Action onRightPointerDownHandler = null;
+    public Action onRightPointerUpHandler = null;
     public Action<BaseEventData> onDragHandler = null;
     public Action<BaseEventData> onBeginDragHandler = null;
     public Action<BaseEventData> onEndDragHandler = null;
@@ -22,19 +24,30 @@ public class UIEventHandler : MonoBehaviour, IPointerClickHandler, IDragHandler,
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        onClickHandler?.Invoke();
+        if (eventData.button == PointerEventData.InputButton.Left)
+            onClickHandler?.Invoke();
     }
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        pressed = true;
-        onPointerDownHandler?.Invoke();
+        if (eventData.button == PointerEventData.InputButton.Left)
+        {
+            pressed = true;
+            onLeftPointerDownHandler?.Invoke();
+        }
+        else if (eventData.button == PointerEventData.InputButton.Right)
+            onRightPointerDownHandler?.Invoke();
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        pressed = false;
-        onPointerUpHandler?.Invoke();
+        if (eventData.button == PointerEventData.InputButton.Left)
+        {
+            pressed = false;
+            onLeftPointerUpHandler?.Invoke();
+        }
+        else if (eventData.button == PointerEventData.InputButton.Right)
+            onRightPointerUpHandler?.Invoke();
     }
 
     public void OnDrag(PointerEventData eventData)

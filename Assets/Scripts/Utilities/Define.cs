@@ -4,8 +4,10 @@ public class Define
     { 
         Click,
         Pressed,
-        PointerDown,
-        PounterUp,
+        LeftPointerDown,
+        LeftPounterUp,
+        RightPounterDown,
+        RightPounterUp,
         Drag,
         BeginDrag,
         EndDrag,

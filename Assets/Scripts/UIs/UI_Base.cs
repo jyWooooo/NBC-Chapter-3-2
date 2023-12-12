@@ -73,13 +73,21 @@ public class UI_Base : MonoBehaviour
                 uIEventHandler.onPointerPressedHandler -= action;
                 uIEventHandler.onPointerPressedHandler += action;
                 break;
-            case UIEvent.PounterUp:
-                uIEventHandler.onClickHandler -= action;
-                uIEventHandler.onClickHandler += action;
+            case UIEvent.LeftPounterUp:
+                uIEventHandler.onLeftPointerUpHandler -= action;
+                uIEventHandler.onLeftPointerUpHandler += action;
                 break;
-            case UIEvent.PointerDown:
-                uIEventHandler.onClickHandler -= action;
-                uIEventHandler.onClickHandler += action;
+            case UIEvent.LeftPointerDown:
+                uIEventHandler.onLeftPointerDownHandler -= action;
+                uIEventHandler.onLeftPointerDownHandler += action;
+                break;
+            case UIEvent.RightPounterUp:
+                uIEventHandler.onRightPointerUpHandler -= action;
+                uIEventHandler.onRightPointerUpHandler += action;
+                break;
+            case UIEvent.RightPounterDown:
+                uIEventHandler.onRightPointerDownHandler -= action;
+                uIEventHandler.onRightPointerDownHandler += action;
                 break;
             case UIEvent.Drag:
                 uIEventHandler.onDragHandler -= dragAction;
