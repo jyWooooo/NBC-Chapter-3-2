@@ -32,6 +32,11 @@ public class Singleton<T> : MonoBehaviour where T : Singleton<T>
             Destroy(gameObject);
     }
 
+    private void OnDestroy()
+    {
+        _instance = null;
+    }
+
     public virtual bool Initialize()
     {
         if (_isInitailized) return false;
