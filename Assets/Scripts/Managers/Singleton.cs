@@ -33,6 +33,9 @@ public class Singleton<T> : MonoBehaviour where T : Singleton<T>
 
     protected virtual void Initialize()
     {
-
+        var root = GameObject.Find("@Managers");
+        if (root == null)
+            root = new("@Managers");
+        transform.parent = root.transform;
     }
 }

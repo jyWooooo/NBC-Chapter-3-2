@@ -54,6 +54,8 @@ public class UIManager : Singleton<UIManager>
 
     protected override void Initialize()
     {
+        base.Initialize();
+
         SetCanvas(Root);
         SetEventSystem(gameObject);
 
