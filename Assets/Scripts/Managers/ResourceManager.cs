@@ -27,7 +27,7 @@ public class ResourceManager : Singleton<ResourceManager>
         };
     }
 
-    public void LoadAllAsync<T>(string label, Action<string, int, int> callback) where T : UnityEngine.Object
+    public void LoadAllAsync<T>(string label, Action<string, int, int> callback = null) where T : UnityEngine.Object
     {
         var operation = Addressables.LoadResourceLocationsAsync(label, typeof(T));
         operation.Completed += op =>

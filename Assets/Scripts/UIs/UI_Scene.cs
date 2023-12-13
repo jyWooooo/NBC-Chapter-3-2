@@ -4,7 +4,7 @@ public class UI_Scene : UI_Base
     {
         if (!base.Initialize()) return false;
 
-        UIManager.Instance.SetCanvas(gameObject);
+        //UIManager.Instance.SetCanvas(gameObject);
 
         return true;
     }

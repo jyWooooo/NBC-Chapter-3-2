@@ -17,13 +17,18 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: 9e88c400fb7934443b8d140b0d3a541a
   m_SerializeEntries:
-  - m_GUID: 22c2349d12b78d243a0f9f90798d2cb1
-    m_Address: UI_Scene_Test.prefab
+  - m_GUID: 8c9f75f0d62b19a418ffb9f50bc334a3
+    m_Address: UI_PopUp_Test.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 8c9f75f0d62b19a418ffb9f50bc334a3
-    m_Address: UI_PopUp_Test.prefab
+  - m_GUID: 22c2349d12b78d243a0f9f90798d2cb1
+    m_Address: UI_Scene_PlayerInfo.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7e44235b560576840bc3d2b9237dbf63
+    m_Address: PlayerBaseStatus.asset
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

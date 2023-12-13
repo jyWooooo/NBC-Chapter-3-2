@@ -58,8 +58,6 @@ public class UIManager : Singleton<UIManager>
         SetEventSystem(gameObject);
 
         //Test Code
-        ResourceManager.Instance.LoadAsync<GameObject>($"UI_Scene_Test.prefab", obj => ShowSceneUI<UI_Scene_Test>(obj.name));
-        ResourceManager.Instance.LoadAsync<GameObject>($"UI_PopUp_Test.prefab");
     }
 
     public T ShowSceneUI<T>(string name = null) where T : UI_Scene
