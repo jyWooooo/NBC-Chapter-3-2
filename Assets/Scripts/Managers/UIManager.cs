@@ -52,14 +52,14 @@ public class UIManager : Singleton<UIManager>
         obj.GetOrAddComponent<InputSystemUIInputModule>();
     }
 
-    protected override void Initialize()
+    protected override bool Initialize()
     {
-        base.Initialize();
+        if (!base.Initialize()) return false;
 
         SetCanvas(Root);
         SetEventSystem(gameObject);
 
-        //Test Code
+        return true;
     }
 
     public T ShowSceneUI<T>(string name = null) where T : UI_Scene

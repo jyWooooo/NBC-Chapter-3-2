@@ -60,6 +60,7 @@ public class UI_Scene_PlayerInfo : UI_Scene
         _btnBack.SetActive(false);
 
         _showStatus.AddComponent<UI_Scene_PlayerInfo_ShowStatus>();
+        _ShowInventory.AddComponent<UI_Scene_Inventory>();
 
         return true;
     }

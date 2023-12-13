@@ -1,8 +1,10 @@
 using System.Collections.Generic;
+using UnityEngine;
 
+[System.Serializable]
 public class Inventory
 {
-    private List<Item> items = new();
+    [SerializeField] private List<Item> items = new();
     public List<Item> Items => items;
 
     public void Add(Item item)
@@ -14,6 +16,4 @@ public class Inventory
     {
         items.Remove(item);
     }
-
-
 }

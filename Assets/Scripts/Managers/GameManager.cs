@@ -13,10 +13,11 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
-    protected override void Initialize()
+    protected override bool Initialize()
     {
-        base.Initialize();
+        if (!base.Initialize()) return false;
         GameLoad();
+        return true;
     }
 
     private void GameLoad()
