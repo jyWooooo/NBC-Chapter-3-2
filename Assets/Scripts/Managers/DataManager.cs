@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using static Define;
-using static UnityEditor.Progress;
 
 public class DataManager : Singleton<DataManager>
 {

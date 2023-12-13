@@ -1,4 +1,5 @@
 using TMPro;
+using UnityEngine;
 
 public class UI_Scene_PlayerInfo_ShowStatus : UI_Scene
 {
@@ -30,8 +31,8 @@ public class UI_Scene_PlayerInfo_ShowStatus : UI_Scene
     {
         Initialize();
         var player = GameManager.Instance.Player;
-        _txtValue_HP.text = $"{player.BaseStatus.MaxHP} + ({player.ModifiersStatus.MaxHP})";
-        _txtValue_Atk.text = $"{player.BaseStatus.Atk} + ({player.ModifiersStatus.Atk})";
-        _txtValue_Def.text = $"{player.BaseStatus.Def} + ({player.ModifiersStatus.Def})";
+        _txtValue_HP.text = $"{player.Status.MaxHP} + ({player.ModifiersStatus.MaxHP})";
+        _txtValue_Atk.text = $"{player.Status.Atk} + ({player.ModifiersStatus.Atk})";
+        _txtValue_Def.text = $"{player.Status.Def} + ({player.ModifiersStatus.Def})";
     }
 }

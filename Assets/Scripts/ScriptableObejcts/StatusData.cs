@@ -14,7 +14,7 @@ public class StatusData : ScriptableObject
     
     public int Level { get => _level; set { _level = value; } }
     public float MaxHP { get => _maxHp; set { _maxHp = value; } }
-    public float CurrentHP { get => _currentHp; set { } }
+    public float CurrentHP { get => _currentHp; set { _currentHp = value; } }
     public float Atk { get => _atk; set { _atk = value; } }
     public float Def { get => _def; set { _def = value; } }
     public float MaxExp { get => _maxExp; set { _maxExp = value; } }

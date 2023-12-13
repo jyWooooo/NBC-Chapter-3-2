@@ -33,10 +33,10 @@ public class Player : MonoBehaviour, IStatus
     private StatusData CalculateModifersStatus()
     {
         var res = ScriptableObject.CreateInstance<StatusData>();
-        for (int i = 0; i < _inventory.Items.Count; i++)
+        foreach (var equip in _equipment.EquipmentItems)
         {
-            if (_inventory.Items[i] is IStatus)
-                res += (_inventory.Items[i] as IStatus).Status;
+            if (equip.Value != null)
+                res += equip.Value.Status;
         }
         return res;
     }

@@ -27,6 +27,7 @@ public class Item_Equip : Item, IStatus
     public Item_Equip(Item_Equip reference) : base(reference)
     {
         _equipSlot = reference.EquipSlot;
+        _status = reference.Status;
     }
 
     public override Item DeepCopy()
