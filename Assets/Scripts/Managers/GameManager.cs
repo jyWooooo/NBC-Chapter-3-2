@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class GameManager : Singleton<GameManager>
@@ -13,7 +14,7 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
-    protected override bool Initialize()
+    public override bool Initialize()
     {
         if (!base.Initialize()) return false;
         GameLoad();
@@ -29,6 +30,7 @@ public class GameManager : Singleton<GameManager>
     private void CharacterLoad()
     {
         _player = new GameObject("Player").AddComponent<Player>();
+        ResourceManager.Instance.LoadAsync<StatusData>("PlayerBaseStatus.asset", res => _player.SetStatus(res));
     }
 
     private void ResourceLoad()
@@ -36,9 +38,10 @@ public class GameManager : Singleton<GameManager>
         ResourceManager.Instance.LoadAllAsync<Sprite>("ItemIcon", (key, cnt, length) =>
             {
                 if (cnt == length)
-                    DataManager.Instance.enabled = true;
+                    DataManager.Instance.Initialize();
             });
         ResourceManager.Instance.LoadAsync<GameObject>($"UI_Scene_PlayerInfo.prefab", res => { ShowSceneUI(); });
+        ResourceManager.Instance.LoadAsync<GameObject>($"UI_PopUp_ItemEquip.prefab");
     }
 
     private void ShowSceneUI()

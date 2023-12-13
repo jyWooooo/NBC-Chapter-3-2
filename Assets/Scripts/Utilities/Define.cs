@@ -12,4 +12,11 @@ public class Define
         BeginDrag,
         EndDrag,
     }
+
+    public enum ItemEquipSlot
+    {
+        None,
+        Weapon,
+        Armor,
+    }
 }

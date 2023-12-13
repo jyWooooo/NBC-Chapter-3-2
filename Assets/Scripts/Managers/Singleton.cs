@@ -32,7 +32,7 @@ public class Singleton<T> : MonoBehaviour where T : Singleton<T>
             Destroy(gameObject);
     }
 
-    protected virtual bool Initialize()
+    public virtual bool Initialize()
     {
         if (_isInitailized) return false;
 

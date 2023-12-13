@@ -18,7 +18,7 @@ MonoBehaviour:
   m_GUID: 9e88c400fb7934443b8d140b0d3a541a
   m_SerializeEntries:
   - m_GUID: 8c9f75f0d62b19a418ffb9f50bc334a3
-    m_Address: UI_PopUp_Test.prefab
+    m_Address: UI_PopUp_ItemEquip.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -31,6 +31,30 @@ MonoBehaviour:
     m_Address: PlayerBaseStatus.asset
     m_ReadOnly: 0
     m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 38d5dde8fb892364296297a3a5c97a20
+    m_Address: Knife.sprite
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - ItemIcon
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e37ee0b1cbe20c5458102626b95a6b7c
+    m_Address: Leather Armor.sprite
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - ItemIcon
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 567fdd2e557fefc478f8aaa7ae56fb11
+    m_Address: Iron Armor.sprite
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - ItemIcon
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 90e99a7fde056a4418b9fe16084adb5c
+    m_Address: Golden Sword.sprite
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - ItemIcon
     FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: a2ade8e1b712cfb4e84a985ab92d73de, type: 2}

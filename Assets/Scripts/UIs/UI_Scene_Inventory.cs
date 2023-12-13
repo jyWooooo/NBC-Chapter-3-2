@@ -9,7 +9,7 @@ public class UI_Scene_Inventory : UI_Scene
         Content,
     }
 
-    private GameObject _content;
+    private UI_ItemSlot[] _slots;
     private List<Item> _items;
 
     public override bool Initialize()
@@ -17,22 +17,30 @@ public class UI_Scene_Inventory : UI_Scene
         if (!base.Initialize()) return false;
 
         BindObject(typeof(Objects));
-        _content = GetObject((int)Objects.Content);
         _items = GameManager.Instance.Player.Inventory.Items;
         SlotInitialize();
         return true;
     }
-
     private void SlotInitialize()
     {
-        for (int i = 0; i < _content.transform.childCount; i++)
+        var content = GetObject((int)Objects.Content);
+        _slots = new UI_ItemSlot[content.transform.childCount];
+        for (int i = 0; i < content.transform.childCount; i++)
         {
-            var slot = _content.transform.GetChild(i).GetOrAddComponent<UI_InventorySlot>();
-            slot.Initialize();
+            _slots[i] = content.transform.GetChild(i).GetOrAddComponent<UI_ItemSlot>();
+            _slots[i].Initialize();
+        }
+        RefreshSlots();
+    }
+
+    public void RefreshSlots()
+    {
+        for (int i = 0; i < _slots.Length; i++)
+        {
             if (i < _items.Count)
-                slot.SetSlot(_items[i]);
+                _slots[i].SetSlot(_items[i]);
             else
-                slot.SetSlot(null);
+                _slots[i].SetSlot(null);
         }
     }
 }

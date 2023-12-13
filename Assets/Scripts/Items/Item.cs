@@ -34,4 +34,9 @@ public class Item
     {
         return new Item(this);
     }
+
+    public virtual void Use(Player owner)
+    {
+
+    }
 }

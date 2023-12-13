@@ -28,9 +28,10 @@ public class UI_Scene_PlayerInfo_ShowStatus : UI_Scene
 
     private void OnEnable()
     {
-        if (!Initialize()) return;
-        _txtValue_HP.text = GameManager.Instance.Player.Status.MaxHP.ToString();
-        _txtValue_Atk.text = GameManager.Instance.Player.Status.Atk.ToString();
-        _txtValue_Def.text = GameManager.Instance.Player.Status.Def.ToString();
+        Initialize();
+        var player = GameManager.Instance.Player;
+        _txtValue_HP.text = $"{player.BaseStatus.MaxHP} + ({player.ModifiersStatus.MaxHP})";
+        _txtValue_Atk.text = $"{player.BaseStatus.Atk} + ({player.ModifiersStatus.Atk})";
+        _txtValue_Def.text = $"{player.BaseStatus.Def} + ({player.ModifiersStatus.Def})";
     }
 }

@@ -16,8 +16,8 @@ public class ResourceManager : Singleton<ResourceManager>
         }
 
         string loadKey = key;
-        if (key.Contains(".sprite"))
-            loadKey = $"{key}[{key.Replace(".sprite", "")}]";
+        //if (key.Contains(".sprite"))
+        //    loadKey = $"{key}[{key.Replace(".sprite", "")}]";
 
         var operation = Addressables.LoadAssetAsync<T>(loadKey);
         operation.Completed += op =>

@@ -52,7 +52,7 @@ public class UIManager : Singleton<UIManager>
         obj.GetOrAddComponent<InputSystemUIInputModule>();
     }
 
-    protected override bool Initialize()
+    public override bool Initialize()
     {
         if (!base.Initialize()) return false;
 
