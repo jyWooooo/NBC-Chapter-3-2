@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -22,5 +23,15 @@ public class Inventory
     {
         if (player != null)
             _parent = player;
+    }
+
+    public void SwapIndex(int l, int r)
+    {
+        if (l < items.Count && r < items.Count)
+        {
+            Item temp = items[l];
+            items[l] = items[r];
+            items[r] = temp;
+        }
     }
 }

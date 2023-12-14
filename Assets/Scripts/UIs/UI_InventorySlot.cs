@@ -1,8 +1,9 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using static Define;
 
-public class UI_ItemSlot : UI_Scene
+public class UI_InventorySlot : UI_Scene
 {
     enum Objects
     {
@@ -20,6 +21,7 @@ public class UI_ItemSlot : UI_Scene
     private bool _isEquip;
     private UI_Scene_Inventory _inventoryUI;
     private bool _useBindEvent = false;
+    public int slotNumber;
 
     public override bool Initialize()
     {
@@ -32,13 +34,17 @@ public class UI_ItemSlot : UI_Scene
         _itemIcon = GetImage((int)Images.imgItemIcon);
         _inventoryUI = transform.GetComponentInParent<UI_Scene_Inventory>();
         gameObject.BindEvent(UseItem);
+        gameObject.BindEvent(() => { _inventoryUI.dragSlot = this; }, EventTriggerType.BeginDrag, PointerEventData.InputButton.Left);
+        gameObject.BindEvent(() => { _inventoryUI.dropSlot = this; _inventoryUI.SwapSlot(); }, EventTriggerType.Drop, PointerEventData.InputButton.Left);
+        gameObject.BindEvent(() => { _inventoryUI.dragSlot = null; }, EventTriggerType.EndDrag, PointerEventData.InputButton.Left);
 
         return true;
     }
 
-    public void SetSlot(Item referenceItem, bool useEvent = false)
+    public void SetSlot(Item referenceItem, int number, bool useEvent = false)
     {
         _refItem = referenceItem;
+        slotNumber = number;
 
         if (referenceItem != null)
         {
@@ -58,6 +64,7 @@ public class UI_ItemSlot : UI_Scene
 
         _useBindEvent = useEvent;
     }
+
     void UseItem()
     {
         if (_refItem == null || !_useBindEvent)

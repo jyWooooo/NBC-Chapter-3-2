@@ -9,8 +9,11 @@ public class UI_Scene_Inventory : UI_Scene
         Content,
     }
 
-    private UI_ItemSlot[] _slots;
+    private UI_InventorySlot[] _slots;
     private List<Item> _items;
+
+    public UI_InventorySlot dragSlot;
+    public UI_InventorySlot dropSlot;
 
     public override bool Initialize()
     {
@@ -24,13 +27,21 @@ public class UI_Scene_Inventory : UI_Scene
     private void SlotInitialize()
     {
         var content = GetObject((int)Objects.Content);
-        _slots = new UI_ItemSlot[content.transform.childCount];
+        _slots = new UI_InventorySlot[content.transform.childCount];
         for (int i = 0; i < content.transform.childCount; i++)
         {
-            _slots[i] = content.transform.GetChild(i).GetOrAddComponent<UI_ItemSlot>();
+            _slots[i] = content.transform.GetChild(i).GetOrAddComponent<UI_InventorySlot>();
             _slots[i].Initialize();
         }
         RefreshSlots();
+    }
+
+    public void SwapSlot()
+    {
+        GameManager.Instance.Player.Inventory.SwapIndex(dragSlot.slotNumber, dropSlot.slotNumber);
+        RefreshSlots();
+        dropSlot = null; 
+        dragSlot = null;
     }
 
     public void RefreshSlots()
@@ -38,9 +49,9 @@ public class UI_Scene_Inventory : UI_Scene
         for (int i = 0; i < _slots.Length; i++)
         {
             if (i < _items.Count)
-                _slots[i].SetSlot(_items[i], true);
+                _slots[i].SetSlot(_items[i], i, true);
             else
-                _slots[i].SetSlot(null);
+                _slots[i].SetSlot(null, i);
         }
     }
 }

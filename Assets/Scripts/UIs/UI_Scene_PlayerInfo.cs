@@ -54,7 +54,6 @@ public class UI_Scene_PlayerInfo : UI_Scene
         GetButton((int)Buttons.btnStatus)?.gameObject?.BindEvent(() => { _mainButtons.SetActive(false); _showStatus.SetActive(true); _btnBack.SetActive(true); });
         GetButton((int)Buttons.btnInventory)?.gameObject?.BindEvent(() => { _mainButtons.SetActive(false); _ShowInventory.SetActive(true); _btnBack.SetActive(true); });
 
-
         _showStatus.SetActive(false);
         _ShowInventory.SetActive(false);
         _btnBack.SetActive(false);
