@@ -34,11 +34,38 @@ public class UI_InventorySlot : UI_Scene
         _itemIcon = GetImage((int)Images.imgItemIcon);
         _inventoryUI = transform.GetComponentInParent<UI_Scene_Inventory>();
         gameObject.BindEvent(UseItem);
-        gameObject.BindEvent(() => { _inventoryUI.dragSlot = this; }, EventTriggerType.BeginDrag, PointerEventData.InputButton.Left);
-        gameObject.BindEvent(() => { _inventoryUI.dropSlot = this; _inventoryUI.SwapSlot(); }, EventTriggerType.Drop, PointerEventData.InputButton.Left);
-        gameObject.BindEvent(() => { _inventoryUI.dragSlot = null; }, EventTriggerType.EndDrag, PointerEventData.InputButton.Left);
+        gameObject.BindEvent(BeginDrag, EventTriggerType.BeginDrag, PointerEventData.InputButton.Left);
+        gameObject.BindEvent(Dragging, EventTriggerType.Drag, PointerEventData.InputButton.Left);
+        gameObject.BindEvent(Drop, EventTriggerType.Drop, PointerEventData.InputButton.Left);
+        gameObject.BindEvent(EndDrag, EventTriggerType.EndDrag, PointerEventData.InputButton.Left);
 
         return true;
+    }
+
+    private void BeginDrag()
+    {
+        _inventoryUI.dragSlot = this;
+        _itemIcon.raycastTarget = false; 
+        _itemIcon.rectTransform.SetParent(UIManager.Instance.Root.transform);
+    }
+
+    private void Dragging(BaseEventData data)
+    {
+        _itemIcon.rectTransform.position = (data as PointerEventData).position;
+    }
+
+    private void EndDrag()
+    {
+        _inventoryUI.dragSlot = null;
+        _itemIcon.rectTransform.SetParent(gameObject.transform);
+        _itemIcon.rectTransform.localPosition = Vector3.zero; 
+        _itemIcon.raycastTarget = true;
+    }
+
+    private void Drop()
+    {
+        _inventoryUI.dropSlot = this;
+        _inventoryUI.SwapSlot();
     }
 
     public void SetSlot(Item referenceItem, int number, bool useEvent = false)
