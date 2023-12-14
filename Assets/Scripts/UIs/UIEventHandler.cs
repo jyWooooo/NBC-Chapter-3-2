@@ -31,8 +31,6 @@ public class UIEventHandler : EventTrigger
 
     private void Execute(EventTriggerType id, BaseEventData eventData)
     {
-        Debug.Log($"ID: {id}, trigger count: {triggers.Count}");
-
         for (int i = 0; i < triggers.Count; ++i)
         {
             var ent = triggers[i];
@@ -43,8 +41,6 @@ public class UIEventHandler : EventTrigger
 
     private void Execute(EventTriggerType id, PointerEventData eventData)
     {
-        Debug.Log($"ID: {id}, trigger count: {triggers.Count}");
-
         for (int i = 0; i < triggers.Count; ++i)
         {
             if (triggers[i] is not ButtonEntry)
