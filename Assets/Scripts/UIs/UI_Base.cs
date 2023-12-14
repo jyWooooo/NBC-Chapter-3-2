@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using static Define;
@@ -59,48 +60,45 @@ public class UI_Base : MonoBehaviour
     protected TextMeshProUGUI GetText(int idx) => Get<TextMeshProUGUI>(idx);
     protected Button GetButton(int idx) => Get<Button>(idx);
 
-    public static void BindEvent(GameObject obj, Action action = null, Action<BaseEventData> dragAction = null, UIEvent type = UIEvent.Click)
+    public static void BindEvent(GameObject obj, Action action = null, EventTriggerType eventType = EventTriggerType.PointerClick, PointerEventData.InputButton? inputButton = PointerEventData.InputButton.Left)
     {
         UIEventHandler uIEventHandler = Utilities.GetOrAddComponent<UIEventHandler>(obj);
 
-        switch (type)
+        if (inputButton.HasValue)
         {
-            case UIEvent.Click:
-                uIEventHandler.onClickHandler -= action;
-                uIEventHandler.onClickHandler += action;
-                break;
-            case UIEvent.Pressed:
-                uIEventHandler.onPointerPressedHandler -= action;
-                uIEventHandler.onPointerPressedHandler += action;
-                break;
-            case UIEvent.LeftPounterUp:
-                uIEventHandler.onLeftPointerUpHandler -= action;
-                uIEventHandler.onLeftPointerUpHandler += action;
-                break;
-            case UIEvent.LeftPointerDown:
-                uIEventHandler.onLeftPointerDownHandler -= action;
-                uIEventHandler.onLeftPointerDownHandler += action;
-                break;
-            case UIEvent.RightPounterUp:
-                uIEventHandler.onRightPointerUpHandler -= action;
-                uIEventHandler.onRightPointerUpHandler += action;
-                break;
-            case UIEvent.RightPounterDown:
-                uIEventHandler.onRightPointerDownHandler -= action;
-                uIEventHandler.onRightPointerDownHandler += action;
-                break;
-            case UIEvent.Drag:
-                uIEventHandler.onDragHandler -= dragAction;
-                uIEventHandler.onDragHandler += dragAction;
-                break;
-            case UIEvent.BeginDrag:
-                uIEventHandler.onBeginDragHandler -= dragAction;
-                uIEventHandler.onBeginDragHandler += dragAction;
-                break;
-            case UIEvent.EndDrag:
-                uIEventHandler.onEndDragHandler -= dragAction;
-                uIEventHandler.onEndDragHandler += dragAction;
-                break;
+            UIEventHandler.ButtonEntry entry = new();
+            entry.eventID = eventType;
+            entry.inputButton = inputButton.Value;
+            entry.callback += x => action?.Invoke();
+            uIEventHandler.triggers.Add(entry);
+        }
+        else
+        {
+            UIEventHandler.Entry entry = new();
+            entry.eventID = eventType;
+            entry.callback += x => action?.Invoke();
+            uIEventHandler.triggers.Add(entry);
+        }
+    }
+
+    public static void BindEvent(GameObject obj, Action<BaseEventData> action = null, EventTriggerType eventType = EventTriggerType.PointerClick, PointerEventData.InputButton? inputButton = PointerEventData.InputButton.Left)
+    {
+        UIEventHandler uIEventHandler = Utilities.GetOrAddComponent<UIEventHandler>(obj);
+
+        if (inputButton.HasValue)
+        {
+            UIEventHandler.ButtonEntry entry = new();
+            entry.eventID = eventType;
+            entry.inputButton = inputButton.Value;
+            entry.callback += action;
+            uIEventHandler.triggers.Add(entry);
+        }
+        else
+        {
+            UIEventHandler.Entry entry = new();
+            entry.eventID = eventType;
+            entry.callback += action;
+            uIEventHandler.triggers.Add(entry);
         }
     }
 }

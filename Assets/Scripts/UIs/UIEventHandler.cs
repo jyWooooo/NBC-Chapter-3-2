@@ -1,67 +1,194 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class UIEventHandler : MonoBehaviour, IPointerClickHandler, IDragHandler, IPointerDownHandler, IPointerUpHandler, IBeginDragHandler, IEndDragHandler
+public class UIEventHandler : EventTrigger
 {
-    public Action onClickHandler = null;
-    public Action onPointerPressedHandler = null;
-    public Action onLeftPointerDownHandler = null;
-    public Action onLeftPointerUpHandler = null;
-    public Action onRightPointerDownHandler = null;
-    public Action onRightPointerUpHandler = null;
-    public Action<BaseEventData> onDragHandler = null;
-    public Action<BaseEventData> onBeginDragHandler = null;
-    public Action<BaseEventData> onEndDragHandler = null;
-
-    private bool pressed = false;
-
-    private void Update()
+    new public class Entry
     {
-        if (pressed)
-            onPointerPressedHandler?.Invoke();
+        public EventTriggerType eventID = EventTriggerType.PointerClick;
+        public Action<BaseEventData> callback;
     }
 
-    public void OnPointerClick(PointerEventData eventData)
+    public class ButtonEntry : Entry
     {
-        if (eventData.button == PointerEventData.InputButton.Left)
-            onClickHandler?.Invoke();
+        public PointerEventData.InputButton inputButton = PointerEventData.InputButton.Left;
     }
 
-    public void OnPointerDown(PointerEventData eventData)
+    private List<Entry> _delegates;
+
+    new public List<Entry> triggers
     {
-        if (eventData.button == PointerEventData.InputButton.Left)
+        get
         {
-            pressed = true;
-            onLeftPointerDownHandler?.Invoke();
+            if (_delegates == null)
+                _delegates = new List<Entry>();
+            return _delegates;
         }
-        else if (eventData.button == PointerEventData.InputButton.Right)
-            onRightPointerDownHandler?.Invoke();
+        set { _delegates = value; }
     }
 
-    public void OnPointerUp(PointerEventData eventData)
+    private void Execute(EventTriggerType id, BaseEventData eventData)
     {
-        if (eventData.button == PointerEventData.InputButton.Left)
+        Debug.Log($"ID: {id}, trigger count: {triggers.Count}");
+
+        for (int i = 0; i < triggers.Count; ++i)
         {
-            pressed = false;
-            onLeftPointerUpHandler?.Invoke();
+            var ent = triggers[i];
+            if (ent.eventID == id)
+                ent.callback?.Invoke(eventData);
         }
-        else if (eventData.button == PointerEventData.InputButton.Right)
-            onRightPointerUpHandler?.Invoke();
     }
 
-    public void OnDrag(PointerEventData eventData)
+    private void Execute(EventTriggerType id, PointerEventData eventData)
     {
-        onDragHandler?.Invoke(eventData);
+        Debug.Log($"ID: {id}, trigger count: {triggers.Count}");
+
+        for (int i = 0; i < triggers.Count; ++i)
+        {
+            if (triggers[i] is not ButtonEntry)
+                continue;
+
+            var ent = triggers[i] as ButtonEntry;
+            if (ent.eventID == id && eventData.button == ent.inputButton)
+                ent.callback?.Invoke(eventData);
+        }
     }
 
-    public void OnBeginDrag(PointerEventData eventData)
+    /// <summary>
+    /// Called by the EventSystem when the pointer enters the object associated with this EventTrigger.
+    /// </summary>
+    public override void OnPointerEnter(PointerEventData eventData)
     {
-        onBeginDragHandler?.Invoke(eventData);
+        Execute(EventTriggerType.PointerEnter, eventData);
     }
 
-    public void OnEndDrag(PointerEventData eventData)
+    /// <summary>
+    /// Called by the EventSystem when the pointer exits the object associated with this EventTrigger.
+    /// </summary>
+    public override void OnPointerExit(PointerEventData eventData)
     {
-        onEndDragHandler?.Invoke(eventData);
+        Execute(EventTriggerType.PointerExit, eventData);
+    }
+
+    /// <summary>
+    /// Called by the EventSystem every time the pointer is moved during dragging.
+    /// </summary>
+    public override void OnDrag(PointerEventData eventData)
+    {
+        Execute(EventTriggerType.Drag, eventData);
+    }
+
+    /// <summary>
+    /// Called by the EventSystem when an object accepts a drop.
+    /// </summary>
+    public override void OnDrop(PointerEventData eventData)
+    {
+        Execute(EventTriggerType.Drop, eventData);
+    }
+
+    /// <summary>
+    /// Called by the EventSystem when a PointerDown event occurs.
+    /// </summary>
+    public override void OnPointerDown(PointerEventData eventData)
+    {
+        Execute(EventTriggerType.PointerDown, eventData);
+    }
+
+    /// <summary>
+    /// Called by the EventSystem when a PointerUp event occurs.
+    /// </summary>
+    public override void OnPointerUp(PointerEventData eventData)
+    {
+        Execute(EventTriggerType.PointerUp, eventData);
+    }
+
+    /// <summary>
+    /// Called by the EventSystem when a Click event occurs.
+    /// </summary>
+    public override void OnPointerClick(PointerEventData eventData)
+    {
+        Execute(EventTriggerType.PointerClick, eventData);
+    }
+
+    /// <summary>
+    /// Called by the EventSystem when a Select event occurs.
+    /// </summary>
+    public override void OnSelect(BaseEventData eventData)
+    {
+        Execute(EventTriggerType.Select, eventData);
+    }
+
+    /// <summary>
+    /// Called by the EventSystem when a new object is being selected.
+    /// </summary>
+    public override void OnDeselect(BaseEventData eventData)
+    {
+        Execute(EventTriggerType.Deselect, eventData);
+    }
+
+    /// <summary>
+    /// Called by the EventSystem when a new Scroll event occurs.
+    /// </summary>
+    public override void OnScroll(PointerEventData eventData)
+    {
+        Execute(EventTriggerType.Scroll, eventData);
+    }
+
+    /// <summary>
+    /// Called by the EventSystem when a Move event occurs.
+    /// </summary>
+    public override void OnMove(AxisEventData eventData)
+    {
+        Execute(EventTriggerType.Move, eventData);
+    }
+
+    /// <summary>
+    /// Called by the EventSystem when the object associated with this EventTrigger is updated.
+    /// </summary>
+    public override void OnUpdateSelected(BaseEventData eventData)
+    {
+        Execute(EventTriggerType.UpdateSelected, eventData);
+    }
+
+    /// <summary>
+    /// Called by the EventSystem when a drag has been found, but before it is valid to begin the drag.
+    /// </summary>
+    public override void OnInitializePotentialDrag(PointerEventData eventData)
+    {
+        Execute(EventTriggerType.InitializePotentialDrag, eventData);
+    }
+
+    /// <summary>
+    /// Called before a drag is started.
+    /// </summary>
+    public override void OnBeginDrag(PointerEventData eventData)
+    {
+        Execute(EventTriggerType.BeginDrag, eventData);
+    }
+
+    /// <summary>
+    /// Called by the EventSystem once dragging ends.
+    /// </summary>
+    public override void OnEndDrag(PointerEventData eventData)
+    {
+        Execute(EventTriggerType.EndDrag, eventData);
+    }
+
+    /// <summary>
+    /// Called by the EventSystem when a Submit event occurs.
+    /// </summary>
+    public override void OnSubmit(BaseEventData eventData)
+    {
+        Execute(EventTriggerType.Submit, eventData);
+    }
+
+    /// <summary>
+    /// Called by the EventSystem when a Cancel event occurs.
+    /// </summary>
+    public override void OnCancel(BaseEventData eventData)
+    {
+        Execute(EventTriggerType.Cancel, eventData);
     }
 }

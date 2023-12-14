@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using static Define;
 
@@ -10,9 +11,14 @@ public static class Extension
         return Utilities.GetOrAddComponent<T>(obj);
     }
 
-    public static void BindEvent(this GameObject obj, Action action = null, Action<BaseEventData> dragAction = null, UIEvent type = UIEvent.Click)
+    public static void BindEvent(this GameObject obj, Action action = null, EventTriggerType eventType = EventTriggerType.PointerClick, PointerEventData.InputButton? inputButton = PointerEventData.InputButton.Left)
     {
-        UI_Base.BindEvent(obj, action, dragAction, type);
+        UI_Base.BindEvent(obj, action, eventType, inputButton);
+    }
+
+    public static void BindEvent(this GameObject obj, Action<BaseEventData> action = null, EventTriggerType eventType = EventTriggerType.PointerClick, PointerEventData.InputButton? inputButton = PointerEventData.InputButton.Left)
+    {
+        UI_Base.BindEvent(obj, action, eventType, inputButton);
     }
 
     public static bool IsValid(this GameObject obj)
