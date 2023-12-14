@@ -36,10 +36,10 @@ public class GameManager : Singleton<GameManager>
     private void ResourceLoad()
     {
         ResourceManager.Instance.LoadAllAsync<Sprite>("ItemIcon", (key, cnt, length) =>
-            {
-                if (cnt == length)
-                    DataManager.Instance.Initialize();
-            });
+        {
+            if (cnt == length)
+                DataManager.Instance.Initialize();
+        });
         ResourceManager.Instance.LoadAsync<GameObject>($"UI_Scene_PlayerInfo.prefab", res => { ShowSceneUI(); });
         ResourceManager.Instance.LoadAsync<GameObject>($"UI_PopUp_ItemEquip.prefab");
     }
