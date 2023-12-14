@@ -30,12 +30,10 @@ public class UI_ItemSlot : UI_Scene
         _itemIcon = GetImage((int)Images.imgItemIcon);
         _inventoryUI = transform.GetComponentInParent<UI_Scene_Inventory>();
 
-        gameObject.BindEvent(UseItem);
-
         return true;
     }
 
-    public void SetSlot(Item referenceItem)
+    public void SetSlot(Item referenceItem, bool useEvent = false)
     {
         _refItem = referenceItem;
 
@@ -54,6 +52,9 @@ public class UI_ItemSlot : UI_Scene
         }
         else
             _equipMark.SetActive(false);
+
+        if (useEvent)
+            gameObject.BindEvent(UseItem);
     }
 
     void UseItem()

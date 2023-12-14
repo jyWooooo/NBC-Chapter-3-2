@@ -38,7 +38,7 @@ public class UI_Scene_Inventory : UI_Scene
         for (int i = 0; i < _slots.Length; i++)
         {
             if (i < _items.Count)
-                _slots[i].SetSlot(_items[i]);
+                _slots[i].SetSlot(_items[i], true);
             else
                 _slots[i].SetSlot(null);
         }
